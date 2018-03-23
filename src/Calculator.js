@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import is from 'is';
 import Display from './Display';
 import Keypad from './Keypad';
 import logo from './logo.svg';
@@ -10,10 +11,10 @@ class App extends Component {
     super(props);
 
     this.state = {
-      curr: null,
-      prev: null,
+      left: '',
+      right: '',
       op: null,
-      output: ''
+      output: 0
     }
   }
 
@@ -23,9 +24,23 @@ class App extends Component {
 
   handleInput(input) {
     //experimenting - expand logic to do proper calculation
-    this.setState({
-      output: this.state.output + input
-    });
+    let isNumber = /[1234567890]/.test(input);
+    let isExpr = !isNumber;
+    let isResultExpr = isExpr && input === '=';
+    let targetState = {};
+
+    if(isExpr) {
+      if(isResultExpr) {
+        targetState.output = parseInt(this.state.left) + parseInt(this.state.output);
+      } else {
+        targetState.left = this.state.output;
+        targetState.output = '0';
+      }
+    } else {
+      targetState.output = this.state.output + input;
+    }
+
+    this.setState(targetState);
   }
 
   render() {
