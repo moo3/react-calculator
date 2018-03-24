@@ -5,6 +5,16 @@ import Keypad from './Keypad';
 import logo from './logo.svg';
 import './Calculator.css';
 
+let Operations = {
+  add: (a,b) => {
+    return parseInt(a)+parseInt(b);
+  },
+
+  subtract: (a,b) => {
+    return parseInt(a)-parseInt(b);
+  }
+}
+
 class App extends Component {
   
   constructor(props) {
@@ -31,10 +41,20 @@ class App extends Component {
 
     if(isExpr) {
       if(isResultExpr) {
-        targetState.output = parseInt(this.state.left) + parseInt(this.state.output);
+        switch(this.state.op) {
+          case '+': 
+            targetState.output = Operations.add(this.state.left, this.state.output);
+            break;
+          
+          case '-':
+            targetState.output = Operations.subtract(this.state.left, this.state.output);
+            break;
+        }
+        // targetState.output = parseInt(this.state.left) + parseInt(this.state.output);
       } else {
         targetState.left = this.state.output;
         targetState.output = '0';
+        targetState.op = input;
       }
     } else {
       targetState.output = this.state.output + input;
