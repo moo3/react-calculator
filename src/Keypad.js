@@ -26,6 +26,8 @@ class Keypad extends Component {
                     <Key code="*" onClick={this.handleClick} />
                 </div>
                 <div>
+                    <Key code="C" onClick={this.handleClick} />
+                    <Key code="0" onClick={this.handleClick} />
                     <Key code="/" onClick={this.handleClick} />
                     <Key code="=" onClick={this.handleClick} />
                 </div>

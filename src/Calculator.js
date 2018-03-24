@@ -12,7 +12,16 @@ let Operations = {
 
   subtract: (a,b) => {
     return parseInt(a)-parseInt(b);
-  }
+  },
+
+  multiply: (a,b) => {
+    return parseInt(a)*parseInt(b);
+  },
+
+  divide: (a,b) => {
+    if(parseInt(b) === 0) return a;
+    return parseInt(a)/parseInt(b);
+  },
 }
 
 class App extends Component {
@@ -24,7 +33,7 @@ class App extends Component {
       left: '',
       right: '',
       op: null,
-      output: 0
+      output: ''
     }
   }
 
@@ -49,15 +58,26 @@ class App extends Component {
           case '-':
             targetState.output = Operations.subtract(this.state.left, this.state.output);
             break;
+
+          case '*':
+            targetState.output = Operations.multiply(this.state.left, this.state.output);
+            break;
+
+          case '/':
+            targetState.output = Operations.divide(this.state.left, this.state.output);
+            break;
         }
-        // targetState.output = parseInt(this.state.left) + parseInt(this.state.output);
       } else {
         targetState.left = this.state.output;
-        targetState.output = '0';
+        targetState.output = '';
         targetState.op = input;
       }
     } else {
-      targetState.output = this.state.output + input;
+      if(input === 'C') {
+        targetState.output = '';
+      } else {
+        targetState.output = this.state.output + input;
+      }
     }
 
     this.setState(targetState);
@@ -70,8 +90,12 @@ class App extends Component {
           <h1 className="App-title">Calculator</h1>
         </header>
         <section>
-          <Display output={this.state.output}/>
-          <Keypad handleClick={this.handleClick.bind(this)}/>
+          <div style={{height: '40px'}}>
+            <Display output={this.state.output}/>
+          </div>
+          <div>
+            <Keypad handleClick={this.handleClick.bind(this)}/>
+          </div>
         </section>
       </div>
     );
