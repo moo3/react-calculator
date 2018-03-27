@@ -33,7 +33,7 @@ class App extends Component {
       left: '',
       right: '',
       op: null,
-      output: ''
+      output: '0'
     }
   }
 
@@ -76,7 +76,7 @@ class App extends Component {
       if(input === 'C') {
         targetState.output = '';
       } else {
-        targetState.output = this.state.output + input;
+        targetState.output = this.state.output === '0' ? input : this.state.output + input;
       }
     }
 
@@ -90,12 +90,8 @@ class App extends Component {
           <h1 className="App-title">Calculator</h1>
         </header>
         <section>
-          <div style={{height: '40px'}}>
-            <Display output={this.state.output}/>
-          </div>
-          <div>
-            <Keypad handleClick={this.handleClick.bind(this)}/>
-          </div>
+          <Display output={this.state.output}/>
+          <Keypad handleClick={this.handleClick.bind(this)}/>
         </section>
       </div>
     );
